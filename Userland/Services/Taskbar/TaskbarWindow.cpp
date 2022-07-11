@@ -118,6 +118,7 @@ void TaskbarWindow::toggle_show_desktop()
     GUI::ConnectionToWindowManagerServer::the().async_toggle_show_desktop();
 }
 
+// TODO(taskbar): this will eventually update the taskbar
 void TaskbarWindow::on_screen_rects_change(Vector<Gfx::IntRect, 4> const& rects, size_t main_screen_index)
 {
     auto const& rect = rects[main_screen_index];
@@ -126,6 +127,7 @@ void TaskbarWindow::on_screen_rects_change(Vector<Gfx::IntRect, 4> const& rects,
     update_applet_area();
 }
 
+// TODO(taskbar): this will update the applets
 void TaskbarWindow::update_applet_area()
 {
     // NOTE: Widget layout is normally lazy, but here we have to force it right away so we can tell
@@ -137,6 +139,7 @@ void TaskbarWindow::update_applet_area()
     GUI::ConnectionToWindowManagerServer::the().async_set_applet_area_position(new_rect.location());
 }
 
+// TODO(taskbar): This creates a button for a window open
 NonnullRefPtr<GUI::Button> TaskbarWindow::create_button(WindowIdentifier const& identifier)
 {
     auto& button = m_task_button_container->add<TaskbarButton>(identifier);
@@ -147,6 +150,7 @@ NonnullRefPtr<GUI::Button> TaskbarWindow::create_button(WindowIdentifier const& 
     return button;
 }
 
+// TODO(taskbar): This creates a button for every window open
 void TaskbarWindow::add_window_button(::Window& window, WindowIdentifier const& identifier)
 {
     if (window.button())
@@ -179,6 +183,7 @@ void TaskbarWindow::remove_window_button(::Window& window, bool was_removed)
     button->remove_from_parent();
 }
 
+// TODO(taskbar): Should we call this after update?
 void TaskbarWindow::update_window_button(::Window& window, bool show_as_active)
 {
     auto* button = window.button();
@@ -324,6 +329,8 @@ void TaskbarWindow::wm_event(GUI::WMEvent& event)
         }
         break;
     }
+
+    // TODO(taskbar): we are gonna create a wm_event!
     case GUI::Event::WM_AppletAreaSizeChanged: {
         auto& changed_event = static_cast<GUI::WMAppletAreaSizeChangedEvent&>(event);
         m_applet_area_size = changed_event.size();
