@@ -2002,6 +2002,7 @@ Gfx::IntRect WindowManager::tiled_window_rect(Window const& window, WindowTileTy
     Gfx::IntRect rect = screen.rect();
 
     if (screen.is_main_screen()) {
+        // TODO(taskbar): Fix this for tiling windows!
         // Subtract taskbar window height if present
         const_cast<WindowManager*>(this)->current_window_stack().for_each_visible_window_of_type_from_back_to_front(WindowType::Taskbar, [&rect](Window& taskbar_window) {
             rect.set_height(rect.height() - taskbar_window.height());
