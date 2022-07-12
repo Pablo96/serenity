@@ -1,9 +1,5 @@
 /*
- * Copyright (c) 2020, Idan Horowitz <idan.horowitz@serenityos.org>
- * Copyright (c) 2021, the SerenityOS developers.
- * Copyright (c) 2021, Andreas Kling <kling@serenityos.org>
- * Copyright (c) 2021-2022, Sam Atkins <atkinssj@serenityos.org>
- * Copyright (c) 2022, MacDue <macdue@dueutil.tech>
+ * Copyright (c) 2022, PabloNarvaha <pnarvaja.21@gmail.com>
  *
  * SPDX-License-Identifier: BSD-2-Clause
  */

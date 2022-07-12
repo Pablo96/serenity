@@ -1,15 +1,14 @@
 /*
- * Copyright (c) 2022, MacDue <macdue@dueutil.tech>
+ * Copyright (c) 2022, PabloNarvaha <pnarvaja.21@gmail.com>
  *
  * SPDX-License-Identifier: BSD-2-Clause
  */
 
 #pragma once
 
-#include <LibGUI/ColorInput.h>
 #include <LibGUI/SettingsWindow.h>
-#include <LibGUI/Slider.h>
-#include <LibGUI/Window.h>
+#include <LibGUI/ComboBox.h>
+#include <LibGUI/ValueSlider.h>
 
 class TaskbarSettingsWidget final : public GUI::SettingsWindow::Tab {
     C_OBJECT(TaskbarSettingsWidget)
@@ -21,4 +20,7 @@ public:
 
 private:
     TaskbarSettingsWidget();
+
+    RefPtr<GUI::ComboBox> m_position_combobox;
+    RefPtr<GUI::ValueSlider> m_height_valueslider;
 };

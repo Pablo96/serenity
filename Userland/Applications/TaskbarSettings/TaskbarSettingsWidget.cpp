@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022, MacDue <macdue@dueutil.tech>
+ * Copyright (c) 2022, PabloNarvaha <pnarvaja.21@gmail.com>
  *
  * SPDX-License-Identifier: BSD-2-Clause
  */
@@ -8,10 +8,73 @@
 
 #include <Applications/TaskbarSettings/TaskbarSettingsGML.h>
 #include <LibGUI/ConnectionToWindowServer.h>
+#include <LibGUI/Margins.h>
+#include <LibGUI/BoxLayout.h>
+#include <LibGUI/GroupBox.h>
+
+class TaskbarPositionModel final : public GUI::Model {
+
+public:
+    TaskbarPositionModel()
+    {
+        m_color_schemes.empend("Top");
+        m_color_schemes.empend("Bottom");
+    }
+
+    virtual ~TaskbarPositionModel() = default;
+
+    virtual int row_count(GUI::ModelIndex const& = GUI::ModelIndex()) const override { return 2; }
+    virtual int column_count(GUI::ModelIndex const& = GUI::ModelIndex()) const override { return 1; }
+
+    virtual GUI::Variant data(GUI::ModelIndex const& index, GUI::ModelRole role) const override
+    {
+        if (role == GUI::ModelRole::TextAlignment)
+            return Gfx::TextAlignment::CenterLeft;
+        if (role == GUI::ModelRole::Display) {
+            return m_color_schemes[index.row()];
+        }
+
+        return {};
+    }
+
+private:
+    Vector<String> m_color_schemes;
+};
 
 TaskbarSettingsWidget::TaskbarSettingsWidget()
 {
-    load_from_gml(taskbar_settings_gml);
+    this->set_fill_with_background_color(true);
+    this->set_layout<GUI::VerticalBoxLayout>();
+    this->layout()->set_margins(10);
+
+    auto& position_groupbox = this->add<GUI::GroupBox>();
+    position_groupbox.set_title("Position");
+    position_groupbox.set_fixed_height(80);
+    position_groupbox.set_layout<GUI::VerticalBoxLayout>();
+    position_groupbox.layout()->set_margins(6);
+    position_groupbox.layout()->set_spacing(2);
+    position_groupbox.add<GUI::Widget>();
+    m_position_combobox = position_groupbox.add<GUI::ComboBox>();
+    {
+        m_position_combobox->set_only_allow_values_from_model(true);
+        m_position_combobox->set_model(adopt_ref(*new TaskbarPositionModel()));
+        m_position_combobox->set_selected_index(0, GUI::AllowCallback::No);
+    }
+    position_groupbox.add<GUI::Widget>();
+
+    auto& height_groupbox = this->add<GUI::GroupBox>();
+    height_groupbox.set_title("Height");
+    height_groupbox.set_fixed_height(80);
+    height_groupbox.set_layout<GUI::VerticalBoxLayout>();
+    height_groupbox.layout()->set_margins(6);
+    height_groupbox.layout()->set_spacing(2);
+    height_groupbox.add<GUI::Widget>();
+    m_height_valueslider = height_groupbox.add<GUI::ValueSlider>();
+    {
+        m_height_valueslider->set_range(16, 200);
+        m_height_valueslider->set_value(36);
+    }
+    height_groupbox.add<GUI::Widget>();
 }
 
 void TaskbarSettingsWidget::apply_settings()
@@ -21,17 +84,6 @@ void TaskbarSettingsWidget::apply_settings()
 
 void TaskbarSettingsWidget::reset_default_values()
 {
-    //constexpr auto default_highlight_color = Gfx::Color::NamedColor::Red;
-    //constexpr auto default_highlight_opacity = 110; // (in range of 0-255)
-    // Disable the highlighting by default.
-    // The range of radii you can configure the highlight to is 20 to 60px,
-    // anything less than that is treated as 'no highlighting'.
-    //constexpr auto default_highlight_radius_length = 25;
-    //m_highlight_opacity_slider->set_value(default_highlight_opacity);
-    //m_highlight_color_input->set_color(default_highlight_color);
-    //m_highlight_radius_slider->set_value(default_highlight_radius_length);
-    //deferred_invoke([&] {
-    //    // Avoid artifact due to setting both color and opacity sliders:
-    //    m_highlight_preview->update();
-    //});
+    m_height_valueslider->set_value(36); // in range (16-200)
+    m_position_combobox->set_selected_index(0, GUI::AllowCallback::No); // 0-TOP | 1-BOTTOM
 }
