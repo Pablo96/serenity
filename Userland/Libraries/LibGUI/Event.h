@@ -65,6 +65,7 @@ public:
         WM_WindowRectChanged,
         WM_WindowIconBitmapChanged,
         WM_AppletAreaSizeChanged,
+        WM_TaskbarConfigChanged,
         WM_SuperKeyPressed,
         WM_SuperSpaceKeyPressed,
         WM_SuperDKeyPressed,
@@ -139,6 +140,16 @@ public:
 private:
     u8 m_digit { 0 };
 };
+
+// TODO(taskbar): Add event data
+class WMTaskbarUpdatedEvent : public WMEvent {
+public:
+    explicit WMTaskbarUpdatedEvent()
+        : WMEvent(Event::Type::WM_TaskbarConfigChanged, 0, 0)
+    {
+    }
+};
+
 
 class WMAppletAreaSizeChangedEvent : public WMEvent {
 public:

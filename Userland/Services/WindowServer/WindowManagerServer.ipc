@@ -10,10 +10,7 @@ endpoint WindowManagerServer
     toggle_show_desktop() =|
     start_window_resize(i32 client_id, i32 window_id) =|
     popup_window_menu(i32 client_id, i32 window_id, Gfx::IntPoint screen_position) =|
-    // TODO(taskbar): should the event be in the window server?
-    // This should be called anyways.
     set_window_taskbar_rect(i32 client_id, i32 window_id, Gfx::IntRect rect) =|
-    // TODO(taskbar): this will call update on all applets
     set_applet_area_position(Gfx::IntPoint position) =|
     set_workspace(u32 row, u32 column) =|
 }

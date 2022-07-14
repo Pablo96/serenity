@@ -140,6 +140,7 @@ endpoint WindowServer
     set_cursor_highlight_radius(int radius) =|
     get_cursor_highlight_radius() => (int radius)
 
+    set_taskbar_config(i32 height, bool position_top) =|
     set_cursor_highlight_color(Gfx::Color color) =|
     get_cursor_highlight_color() => (Gfx::Color color)
 
