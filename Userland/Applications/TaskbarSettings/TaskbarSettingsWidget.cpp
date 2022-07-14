@@ -79,7 +79,7 @@ TaskbarSettingsWidget::TaskbarSettingsWidget()
 
 void TaskbarSettingsWidget::apply_settings()
 {
-    //GUI::ConnectionToWindowServer::the().async_set_cursor_highlight_color(highlight_color());
+    GUI::ConnectionToWindowServer::the().async_set_taskbar_config(m_height_valueslider->value(), m_position_combobox->selected_index() == 0);
 }
 
 void TaskbarSettingsWidget::reset_default_values()
