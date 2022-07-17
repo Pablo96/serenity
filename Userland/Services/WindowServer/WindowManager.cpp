@@ -2315,6 +2315,14 @@ void WindowManager::apply_cursor_theme(String const& theme_name)
     sync_config_to_disk();
 }
 
+void WindowManager::set_taskbar_config(i32 height, i32 position)
+{
+    Compositor::the().invalidate_screen();
+    m_config->write_num_entry("Taskbar", "height", height);
+    m_config->write_num_entry("Taskbar", "position", position);
+    sync_config_to_disk();
+}
+
 void WindowManager::set_cursor_highlight_radius(int radius)
 {
     // TODO: Validate radius

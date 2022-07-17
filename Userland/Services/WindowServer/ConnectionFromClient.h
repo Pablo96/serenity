@@ -151,7 +151,7 @@ private:
     virtual Messages::WindowServer::GetCursorHighlightRadiusResponse get_cursor_highlight_radius() override;
     virtual void set_cursor_highlight_color(Gfx::Color const& color) override;
     // TODO(taskbar): post the taskbar_config_changed event
-    virtual void set_taskbar_config(i32 height, bool position_top) override;
+    virtual void set_taskbar_config(i32 height, i32 position_top) override;
     virtual Messages::WindowServer::GetCursorHighlightColorResponse get_cursor_highlight_color() override;
     virtual Messages::WindowServer::GetCursorThemeResponse get_cursor_theme() override;
     virtual Messages::WindowServer::SetSystemFontsResponse set_system_fonts(String const&, String const&) override;

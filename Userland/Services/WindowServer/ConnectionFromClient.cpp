@@ -840,9 +840,9 @@ Messages::WindowServer::GetCursorHighlightRadiusResponse ConnectionFromClient::g
     return WindowManager::the().cursor_highlight_radius();
 }
 
-void ConnectionFromClient::set_taskbar_config(i32, bool)
+void ConnectionFromClient::set_taskbar_config(i32 height, i32 position)
 {
-    //WindowManager::the().set_cursor_highlight_color(color);
+    WindowManager::the().set_taskbar_config(height, position);
 }
 
 void ConnectionFromClient::set_cursor_highlight_color(Gfx::Color const& color)

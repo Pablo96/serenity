@@ -59,6 +59,7 @@ TaskbarSettingsWidget::TaskbarSettingsWidget()
         m_position_combobox->set_only_allow_values_from_model(true);
         m_position_combobox->set_model(adopt_ref(*new TaskbarPositionModel()));
         m_position_combobox->set_selected_index(0, GUI::AllowCallback::No);
+        m_position_combobox->on_change = [&](String, GUI::ModelIndex) { set_modified(true); };
     }
     position_groupbox.add<GUI::Widget>();
 
@@ -73,13 +74,14 @@ TaskbarSettingsWidget::TaskbarSettingsWidget()
     {
         m_height_valueslider->set_range(16, 200);
         m_height_valueslider->set_value(36);
+        m_height_valueslider->on_change = [&](auto) { set_modified(true); };
     }
     height_groupbox.add<GUI::Widget>();
 }
 
 void TaskbarSettingsWidget::apply_settings()
 {
-    GUI::ConnectionToWindowServer::the().async_set_taskbar_config(m_height_valueslider->value(), m_position_combobox->selected_index() == 0);
+    GUI::ConnectionToWindowServer::the().async_set_taskbar_config(m_height_valueslider->value(), m_position_combobox->selected_index());
 }
 
 void TaskbarSettingsWidget::reset_default_values()
