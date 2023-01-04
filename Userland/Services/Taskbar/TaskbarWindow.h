@@ -62,6 +62,7 @@ private:
 
     RefPtr<Desktop::AppFile> m_assistant_app_file;
 
+    int m_inner_widgets_height;
     unsigned m_current_workspace_row { 0 };
     unsigned m_current_workspace_column { 0 };
 };

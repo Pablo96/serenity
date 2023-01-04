@@ -68,6 +68,7 @@ TaskbarWindow::TaskbarWindow(NonnullRefPtr<GUI::Menu> start_menu)
     set_start_button_font(Gfx::FontDatabase::default_font().bold_variant());
     m_start_button->set_icon_spacing(0);
     auto app_icon = GUI::Icon::default_icon("ladyball");
+    //TODO(taskbar): size menu btn text
     m_start_button->set_icon(app_icon.bitmap_for_size(16));
     m_start_button->set_menu(m_start_menu);
 
@@ -78,6 +79,7 @@ TaskbarWindow::TaskbarWindow(NonnullRefPtr<GUI::Menu> start_menu)
     m_task_button_container->set_layout<GUI::HorizontalBoxLayout>();
     m_task_button_container->layout()->set_spacing(3);
 
+    //TODO(taskbar): size menu btn icon
     m_default_icon = Gfx::Bitmap::try_load_from_file("/res/icons/16x16/window.png").release_value_but_fixme_should_propagate_errors();
 
     m_applet_area_container = main_widget.add<GUI::Frame>();
@@ -91,7 +93,7 @@ TaskbarWindow::TaskbarWindow(NonnullRefPtr<GUI::Menu> start_menu)
     m_show_desktop_button->set_tooltip("Show Desktop");
     m_show_desktop_button->set_icon(GUI::Icon::default_icon("desktop").bitmap_for_size(16));
     m_show_desktop_button->set_button_style(Gfx::ButtonStyle::Coolbar);
-    m_show_desktop_button->set_fixed_size(24, 24);
+    m_show_desktop_button->set_fixed_size(24, 24); //TODO(taskbar): size show desktop btn
     m_show_desktop_button->on_click = TaskbarWindow::show_desktop_button_clicked;
     main_widget.add_child(*m_show_desktop_button);
 
@@ -143,8 +145,8 @@ void TaskbarWindow::update_applet_area()
 NonnullRefPtr<GUI::Button> TaskbarWindow::create_button(WindowIdentifier const& identifier)
 {
     auto& button = m_task_button_container->add<TaskbarButton>(identifier);
-    button.set_min_size(20, 21);
-    button.set_max_size(140, 21);
+    button.set_min_size(20, m_inner_widgets_height); //TODO(taskbar): size window btn
+    button.set_max_size(140, m_inner_widgets_height); //TODO(taskbar): size window btn
     button.set_text_alignment(Gfx::TextAlignment::CenterLeft);
     button.set_icon(*m_default_icon);
     return button;
@@ -334,7 +336,7 @@ void TaskbarWindow::wm_event(GUI::WMEvent& event)
     case GUI::Event::WM_AppletAreaSizeChanged: {
         auto& changed_event = static_cast<GUI::WMAppletAreaSizeChangedEvent&>(event);
         m_applet_area_size = changed_event.size();
-        m_applet_area_container->set_fixed_size(changed_event.size().width() + 8, 21);
+        m_applet_area_container->set_fixed_size(changed_event.size().width() + 8, m_inner_widgets_height); //TODO(taskbar): size applet area
         update_applet_area();
         break;
     }
@@ -407,5 +409,5 @@ void TaskbarWindow::workspace_change_event(unsigned current_row, unsigned curren
 void TaskbarWindow::set_start_button_font(Gfx::Font const& font)
 {
     m_start_button->set_font(font);
-    m_start_button->set_fixed_size(font.width(m_start_button->text()) + 30, 21);
+    m_start_button->set_fixed_size(font.width(m_start_button->text()) + 30, m_inner_widgets_height); //TODO(taskbar): size start btn
 }
